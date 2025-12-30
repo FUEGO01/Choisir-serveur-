@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VEGETA TV</title>
+<style>
+  body{margin:0;background:#0b0d14;color:#fff;font-family:system-ui,Segoe UI,Roboto,Arial}
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .card{width:min(520px,92vw);background:#111427;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px}
+  h1{margin:0 0 8px;font-size:20px}
+  p{margin:0 0 14px;opacity:.8;font-size:14px;line-height:1.4}
+  .btns{display:grid;gap:10px}
+  button{cursor:pointer;border:0;border-radius:14px;padding:14px 12px;font-size:16px;color:#fff;background:#23284a}
+  button:hover{filter:brightness(1.08)}
+  .small{margin-top:12px;opacity:.7;font-size:12px}
+  a{color:#9bb3ff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Choisir un serveur</h1>
+    <p>Sélectionne ton serveur. Le choix sera mémorisé.</p>
+
+    <div class="btns">
+      <button id="s1">Serveur 1</button>
+      <button id="s2">Serveur 2</button>
+    </div>
+
+    <div class="small">
+      <a href="#" id="reset">Réinitialiser le choix</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const LS_KEY = "vegeta_active_server_v1";
+
+  const URL1 = "http://vegeta-tv-2.zya.me/?i=1";
+  const URL2 = "http://vegeta-tv-3.iceiy.com/?i=1";
+
+  function go(url){
+    try{ localStorage.setItem(LS_KEY, url); }catch(e){}
+    window.location.replace(url);
+  }
+
+  // auto-redirect si déjà choisi
+  try{
+    const saved = localStorage.getItem(LS_KEY);
+    if(saved === URL1 || saved === URL2){
+      window.location.replace(saved);
+    }
+  }catch(e){}
+
+  document.getElementById("s1").onclick = () => go(URL1);
+  document.getElementById("s2").onclick = () => go(URL2);
+
+  document.getElementById("reset").onclick = (e) => {
+    e.preventDefault();
+    try{ localStorage.removeItem(LS_KEY); }catch(err){}
+    alert("Choix réinitialisé.");
+  };
+</script>
+</body>
+</html>
